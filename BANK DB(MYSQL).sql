@@ -1,12 +1,12 @@
 CREATE SCHEMA bankDB;
-USE bankdb;
+use bankDB;
 CREATE TABLE bank(
-	Name VARCHAR(50) NOT NULL,
+	name VARCHAR(50) NOT NULL,
     BCode INT PRIMARY KEY AUTO_INCREMENT,
     Address VARCHAR(50) NOT NULL,
-    UNIQUE(Name, Address)
+    UNIQUE(name, Address)
 );
-INSERT INTO bank(Name, Address) VALUE ('BANK MISR', '23 Talat Harb ST.');
+INSERT INTO bank(Name, Address) VALUES ('BANK MISR', '23 Talat Harb ST.');
 
 CREATE TABLE bank_branch(
 	BranchNo INT PRIMARY KEY AUTO_INCREMENT,
@@ -28,7 +28,6 @@ CREATE TABLE loan(
     Date DATE NOT NULL,
     BranchNo INT,
     FOREIGN KEY(BranchNo) REFERENCES bank_branch(BranchNo)
-    ON UPDATE CASCADE ON DELETE SET NULL
 );
 INSERT INTO loan(Type, Amount, Date, BranchNo) VALUES 
 ('The Mortgage Loan', '1000', '2015-05-12', 1),
@@ -49,11 +48,9 @@ CREATE TABLE employee(
     FOREIGN KEY(BCode) REFERENCES bank(BCode)
     ON UPDATE CASCADE,
     BranchNo INT,
-    FOREIGN KEY(BranchNo) REFERENCES bank_branch(BranchNo)
-    ON UPDATE CASCADE ON DELETE SET NULL,
+    FOREIGN KEY(BranchNo) REFERENCES bank_branch(BranchNo),
     MgrID INT,
     FOREIGN KEY(MgrID) REFERENCES employee(EmpID)
-    ON UPDATE CASCADE ON DELETE SET NULL
 );
 INSERT INTO employee(FirstName, LastName, Gender, EmpAddress, BCode, BranchNo, MgrID) VALUES 
 ('Shehab', 'Nagy', 'M', 'Cairo', 1, 1, NULL),
@@ -85,7 +82,6 @@ CREATE TABLE account(
     Balance DECIMAL(10,2) NOT NULL,
     BranchNo INT,
     FOREIGN KEY(BranchNo) REFERENCES bank_branch(BranchNo)
-    ON UPDATE CASCADE ON DELETE SET NULL
 );
 INSERT INTO account(AccountPassword, Type, Balance, BranchNo) VALUES 
 ('08F49E3F08D', 'Current Account', 1000, 1),
