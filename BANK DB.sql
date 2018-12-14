@@ -80,20 +80,21 @@ INSERT INTO client(FirstName, LastName, Gender, OpenBalance, MonthlyPay) VALUES
 
 CREATE TABLE account(
 	AccountNo INT PRIMARY KEY AUTO_INCREMENT,
+    AccountPassword VARCHAR(50) NOT NULL,
 	Type VARCHAR(50) NOT NULL,
     Balance DECIMAL(10,2) NOT NULL,
     BranchNo INT,
     FOREIGN KEY(BranchNo) REFERENCES bank_branch(BranchNo)
     ON UPDATE CASCADE ON DELETE SET NULL
 );
-INSERT INTO account(Type, Balance, BranchNo) VALUES 
-('Current Account', 1000, 1),
-('Current Account', 4000, 3),
-('Saving Account', 2000, 2),
-('Saving Account', 1000, 4),
-('Deposit Account', 3000, 3),
-('Deposit Account', 8000, 2),
-('Certifi​cates​', 10000, 2);
+INSERT INTO account(AccountPassword, Type, Balance, BranchNo) VALUES 
+('08F49E3F08D', 'Current Account', 1000, 1),
+('E32B6232095', 'Current Account', 4000, 3),
+('95BA5CF608D', 'Saving Account', 2000, 2),
+('65A6D06208F', 'Saving Account', 1000, 4),
+('9185C4B40E8', 'Deposit Account', 3000, 3),
+('2B9990470DC', 'Deposit Account', 8000, 2),
+('A669C79B0BA', 'Certifi​cates​', 10000, 2);
 
 CREATE TABLE has(
 	CID INT NOT NULL,
