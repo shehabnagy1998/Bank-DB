@@ -42,7 +42,7 @@ CREATE TABLE employee(
 	EmpID INT PRIMARY KEY AUTO_INCREMENT,
     FirstName VARCHAR(50) NOT NULL,
     LastName VARCHAR(50) NOT NULL,
-    Gender CHAR(1) NOT NULL,
+    Gender VARCHAR(7) NOT NULL,
     EmpAddress VARCHAR(50) NOT NULL,
     BCode INT NOT NULL,
     FOREIGN KEY(BCode) REFERENCES bank(BCode)
@@ -53,76 +53,48 @@ CREATE TABLE employee(
     FOREIGN KEY(MgrID) REFERENCES employee(EmpID)
 );
 INSERT INTO employee(FirstName, LastName, Gender, EmpAddress, BCode, BranchNo, MgrID) VALUES 
-('Shehab', 'Nagy', 'M', 'Cairo', 1, 1, NULL),
-('Shorouk', 'Gamal', 'F', 'Marsa Matrouh', 1, 2, 1),
-('Saad', 'Tarek', 'M', 'Cairo', 1, 3, 1),
-('Amr', 'Mohamed', 'M', 'Banhaa', 1, 2, 1),
-('Asmaa', 'Ahmed', 'F', 'Al-Sharqya', 1, 3, 1),
-('Lojuin', 'El-Saied', 'F', 'Cairo', 1, 3, 1);
+('Shehab', 'Nagy', 'Male', 'Cairo', 1, 1, NULL),
+('Shorouk', 'Gamal', 'Female', 'Marsa Matrouh', 1, 2, 1),
+('Saad', 'Tarek', 'Male', 'Cairo', 1, 3, 1),
+('Amr', 'Mohamed', 'Male', 'Banhaa', 1, 2, 1),
+('Asmaa', 'Ahmed', 'Female', 'Al-Sharqya', 1, 3, 1),
+('Lojuin', 'El-Saied', 'Female', 'Cairo', 1, 3, 1);
 
 CREATE TABLE client(
-	CID INT PRIMARY KEY AUTO_INCREMENT,
+	CID INT8 PRIMARY KEY,
     FirstName VARCHAR(50) NOT NULL,
     LastName VARCHAR(50) NOT NULL,
-    Gender CHAR(1) NOT NULL,
+    Gender VARCHAR(7) NOT NULL,
     OpenBalance DECIMAL(10,2) NOT NULL,
-    MonthlyPay DECIMAL(10,2) NOT NULL
-);
-INSERT INTO client(FirstName, LastName, Gender, OpenBalance, MonthlyPay) VALUES 
-('Ahmed', 'Mohamed', 'M', 1000, 2000),
-('Mohamed', 'Saber', 'M', 1000, 1000),
-('Bassel', 'Nagy', 'M', 3000, 5000),
-('Adam', 'Mohamed', 'M', 1000, 2000),
-('Shams', 'Ahmed', 'F', 3000, 2000);
-
-CREATE TABLE account(
-	AccountNo INT PRIMARY KEY AUTO_INCREMENT,
-    AccountPassword VARCHAR(50) NOT NULL,
-	Type VARCHAR(50) NOT NULL,
     Balance DECIMAL(10,2) NOT NULL,
-    BranchNo INT,
-    FOREIGN KEY(BranchNo) REFERENCES bank_branch(BranchNo)
+    MonthlyPay DECIMAL(10,2) NOT NULL,
+    DOB DATE NOT NULL,
+    Country VARCHAR(50) NOT NULL,
+    Status VARCHAR(15) NOT NULL,
+    Job VARCHAR(50) NOT NULL,
+    Phone INT8 NOT NULL
 );
-INSERT INTO account(AccountPassword, Type, Balance, BranchNo) VALUES 
-('08F49E3F08D', 'Current Account', 1000, 1),
-('E32B6232095', 'Current Account', 4000, 3),
-('95BA5CF608D', 'Saving Account', 2000, 2),
-('65A6D06208F', 'Saving Account', 1000, 4),
-('9185C4B40E8', 'Deposit Account', 3000, 3),
-('2B9990470DC', 'Deposit Account', 8000, 2),
-('A669C79B0BA', 'Certifi​cates​', 10000, 2);
+INSERT INTO client(CID, FirstName, LastName, Gender, OpenBalance, Balance, MonthlyPay, DOB, Country, Status, Job, Phone) VALUES 
+(12345678932145, 'Ahmed', 'Mohamed', 'Male', 1000, 1000, 2000, '1998-5-4', 'Egypt', 'Married', 'Engineer', 01064264908),
+(13245679456987, 'Mohamed', 'Saber', 'Male', 1000, 1000, 1000, '1956-2-3', 'Egypt', 'Married', 'Engineer', 01064224940),
+(65465468798798, 'Bassel', 'Nagy', 'Male',  3000, 3000, 5000, '1948-5-1', 'Egypt', 'Single', 'Doctor', 01064223408),
+(65489486458489, 'Adam', 'Mohamed', 'Male', 1000, 1000, 2000, '1957-5-2', 'USA', 'Married', 'Student', 01064556508),
+(65465487987884, 'Shams', 'Ahmed', 'Female', 3000, 3000, 2000, '1963-5-20', 'USA', 'Divorced', 'Student', 01064123908);
 
-CREATE TABLE has(
-	CID INT NOT NULL,
-    AccountNo INT NOT NULL,
-    PRIMARY KEY(CID, AccountNo),
-    FOREIGN KEY(CID) REFERENCES client(CID)
-    ON UPDATE CASCADE,
-    FOREIGN KEY(AccountNo) REFERENCES account(AccountNo)
-    ON UPDATE CASCADE
-);
-INSERT INTO has(CID, AccountNo) VALUES 
-(1,1),
-(2,2),
-(2,3),
-(3,4),
-(3,5),
-(3,6),
-(4,7);
 
 CREATE TABLE borrow(
 	LoanID INT,
-    CID INT,
+    CID INT8,
     FOREIGN KEY(LoanID) REFERENCES loan(LoanID)
     ON UPDATE CASCADE ON DELETE SET NULL,
     FOREIGN KEY(CID) REFERENCES client(CID)
     ON UPDATE CASCADE ON DELETE SET NULL
 );
 INSERT INTO borrow(CID, LoanID) VALUES 
-(1,1),
-(2,2),
-(2,3),
-(3,4),
-(3,5),
-(3,6),
-(4,7);
+(12345678932145,1),
+(13245679456987,2),
+(13245679456987,3),
+(65465468798798,4),
+(65465468798798,5),
+(65465468798798,6),
+(65465487987884,7);
